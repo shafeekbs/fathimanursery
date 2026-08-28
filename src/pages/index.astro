@@ -8,6 +8,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import StatBand from '../components/StatBand.astro';
 import heroImage from '../assets/plants/hero-yard.png';
 import packingImage from '../assets/plants/packing.png';
+import logoLockup from '../assets/brand/logo-lockup.png';
 
 const featured = (await getCollection('plants'))
   .filter((plant) => plant.data.featured)
@@ -122,14 +123,27 @@ const stats = [
     </div>
   </section>
 
-  <!-- About -->
+  <!-- About. The full lockup sits here because it is the one light surface
+       with room for it — the navy wordmark and black script tagline are
+       unreadable on the navy footer, and no reversed version exists. -->
   <section id="about" class="scroll-mt-16 bg-bone">
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-      <SectionHeading
-        eyebrow="The nursery"
-        title="A family nursery, working at trade scale"
-        intro="TODO: the owner's account of the business — years in operation, the yard, how the family came to it. Do not invent this copy."
-      />
+      <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <SectionHeading
+          eyebrow="The nursery"
+          title="A family nursery, working at trade scale"
+          intro="TODO: the owner's account of the business — years in operation, the yard, how the family came to it. Do not invent this copy."
+        />
+        <div class="flex justify-center lg:justify-end">
+          <Image
+            src={logoLockup}
+            alt="Fathima Nursery Gardens — bringing back the green"
+            width={520}
+            height={146}
+            class="h-auto w-full max-w-[420px]"
+          />
+        </div>
+      </div>
     </div>
   </section>
 
