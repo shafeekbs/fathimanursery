@@ -11,7 +11,7 @@ minOrder: 25
 railDispatch: true
 featured: true
 images:
-  - "../../assets/plants/placeholder.png"
+  - "../../assets/plants/areca-palm.png"
 order: 1
 notes: "Clumping habit, ships well bare-crowned for rail consignments."
 ---

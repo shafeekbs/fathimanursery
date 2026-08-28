@@ -1,19 +1,156 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import EnquiryButton from '../components/EnquiryButton.astro';
-import logo from '../assets/brand/logo-placeholder.svg';
+import PlantGrid from '../components/PlantGrid.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StatBand from '../components/StatBand.astro';
+import heroImage from '../assets/plants/hero-yard.png';
+import packingImage from '../assets/plants/packing.png';
+
+const featured = (await getCollection('plants'))
+  .filter((plant) => plant.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+// TODO: every figure here needs the owner's real numbers — CLAUDE.md section 10.
+const stats = [
+  { label: 'Nursery area', value: 'TODO: acres', pending: true },
+  { label: 'Species in stock', value: 'TODO: count', pending: true },
+  { label: 'In operation', value: 'TODO: years', pending: true },
+  { label: 'States served', value: 'TODO: list', pending: true },
+];
 ---
 
 <Base
-  title="Fathima Nursery Gardens — wholesale plant nursery, Kerala"
-  description="Wholesale plant nursery in Kerala, India, supplying landscape contractors, retail nurseries and institutions across India by rail."
+  title="Fathima Nursery Gardens — wholesale plant nursery in Kerala, India"
+  description="Wholesale plant nursery in Kerala supplying landscape contractors, retail nurseries and institutions across India. Consignments dispatched by rail to Kolkata, Assam and beyond."
 >
-  <section class="mx-auto flex max-w-3xl flex-col items-center gap-8 px-4 py-24 text-center sm:px-6">
-    <Image src={logo} alt="Fathima Nursery Gardens" width={96} height={96} />
-    <h1 class="font-display text-4xl tracking-[-0.02em] text-navy sm:text-5xl">
-      Wholesale plants from Kerala, dispatched by rail across India
-    </h1>
-    <EnquiryButton message="Hi, I'd like to ask about availability and trade pricing." />
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-mist bg-bone">
+    <div class="mx-auto max-w-6xl px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
+      <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+        <div>
+          <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-green">
+            Wholesale nursery &middot; Kerala, India
+          </p>
+          <h1 class="mt-5 font-display text-display-lg tracking-display text-navy">
+            Plants grown for the trade, packed for the journey.
+          </h1>
+          <p class="mt-6 max-w-prose font-sans text-base leading-relaxed text-ink/80 sm:text-lg">
+            We supply landscape contractors, retail nurseries and institutions in bulk &mdash; and
+            we send consignments by rail to Kolkata, Assam and other states every season. Ask for
+            availability and we will quote by quantity.
+          </p>
+          <EnquiryButton class="mt-8" />
+          <p class="mt-6 font-mono text-[11px] uppercase tracking-wider text-ink/70">
+            Trade orders only &middot; No minimum enquiry
+          </p>
+        </div>
+
+        <div class="relative">
+          <Image
+            src={heroImage}
+            alt="Fathima Nursery Gardens yard in Kerala"
+            width={1200}
+            height={900}
+            class="aspect-[4/3] w-full rounded-2xl border border-mist object-cover"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StatBand stats={stats} />
+
+  <!-- Featured plants -->
+  <section id="plants" class="scroll-mt-16 bg-bone">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+      <SectionHeading
+        eyebrow="From the yard"
+        title="A few of what we are growing now"
+        intro="Every plant is listed as a nursery tag — pot size, height range and availability, the way it reads on the label in the yard."
+      />
+      <PlantGrid plants={featured} class="mt-12" />
+      <p class="mt-10 font-mono text-[11px] uppercase tracking-wider text-ink/70">
+        TODO: full catalog page — not built yet
+      </p>
+    </div>
+  </section>
+
+  <!-- Packing and dispatch: the credibility section -->
+  <section id="dispatch" class="scroll-mt-16 border-y border-mist bg-white">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+      <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <Image
+          src={packingImage}
+          alt="Plants being packed for rail consignment at the nursery"
+          width={1200}
+          height={900}
+          class="aspect-[4/3] w-full rounded-2xl border border-mist object-cover"
+        />
+        <div>
+          <SectionHeading
+            eyebrow="Packing and dispatch"
+            title="Built to survive the journey east"
+            intro="Buyers in Bengal and Assam are three days away by rail. Root balls are wrapped and crated so stock arrives ready to plant, not ready to recover."
+          />
+          <dl class="mt-8 grid gap-6 sm:grid-cols-2">
+            <div class="border-t border-mist pt-4">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/70">
+                Transit time
+              </dt>
+              <dd class="mt-2 font-mono text-sm uppercase tracking-wide text-navy">
+                TODO: days by rail
+              </dd>
+            </div>
+            <div class="border-t border-mist pt-4">
+              <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-ink/70">
+                Regular routes
+              </dt>
+              <dd class="mt-2 font-mono text-sm uppercase tracking-wide text-navy">
+                TODO: states served
+              </dd>
+            </div>
+          </dl>
+          <p class="mt-8 font-mono text-[11px] uppercase tracking-wider text-ink/70">
+            TODO: full dispatch page — not built yet
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="scroll-mt-16 bg-bone">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+      <SectionHeading
+        eyebrow="The nursery"
+        title="A family nursery, working at trade scale"
+        intro="TODO: the owner's account of the business — years in operation, the yard, how the family came to it. Do not invent this copy."
+      />
+    </div>
+  </section>
+
+  <!-- Closing enquiry. The leaf gradient is used once per page, here. -->
+  <section class="bg-leaf-gradient">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div class="max-w-prose">
+          <h2 class="font-display text-display-md tracking-display text-white">
+            Tell us what you need and how many.
+          </h2>
+          <p class="mt-4 font-sans text-base leading-relaxed text-white/90">
+            Send a list and we will come back with availability, sizes and a quote by quantity.
+          </p>
+        </div>
+        <EnquiryButton
+          tone="light"
+          message="Hi, I'd like to send a plant list and ask for availability and a quote."
+          class="shrink-0"
+        />
+      </div>
+    </div>
   </section>
 </Base>
