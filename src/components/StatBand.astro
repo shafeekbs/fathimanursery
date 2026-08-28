@@ -1,0 +1,43 @@
+---
+// Scale in numbers. Mono is used here deliberately — CLAUDE.md section 3
+// reserves it for trade data, and this is exactly that.
+//
+// Every figure below is unknown until the owner supplies it (section 10).
+// `pending: true` renders a visible placeholder rather than an invented number.
+interface Stat {
+  value: string;
+  label: string;
+  pending?: boolean;
+}
+
+interface Props {
+  stats: Stat[];
+}
+
+const { stats } = Astro.props;
+---
+
+<section class="bg-navy">
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14 lg:px-8">
+    <dl class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+      {
+        stats.map((stat) => (
+          <div class="border-l border-white/15 pl-4 sm:pl-5">
+            <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-lime">
+              {stat.label}
+            </dt>
+            <dd
+              class={`mt-2 font-display tracking-display ${
+                stat.pending
+                  ? 'font-mono text-sm uppercase tracking-wider text-mist/75'
+                  : 'text-display-sm text-bone'
+              }`}
+            >
+              {stat.value}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

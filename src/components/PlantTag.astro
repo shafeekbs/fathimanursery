@@ -1,63 +1,109 @@
 ---
-// The signature element of the site — every plant is presented as a
-// nursery tag. See CLAUDE.md section 3. Keep the mono spec block strictly
-// for spec data; never set a sentence in mono.
+// The signature element of the site — every plant is presented as a nursery
+// tag: the physical label tied to a plant in the yard. See CLAUDE.md section 3.
+// The punch hole and the mist rule are the whole idea; keep everything else
+// quiet so nothing competes with it.
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { whatsappLink } from '../config';
 
 interface Props {
   plant: CollectionEntry<'plants'>;
-  /** Render the larger plant-detail treatment instead of the catalog card. */
+  /** Larger treatment for the plant detail page. */
   size?: 'card' | 'detail';
 }
 
 const { plant, size = 'card' } = Astro.props;
-const { name, botanical, potSizes, heightRange, availability, images } = plant.data;
+const { name, botanical, potSizes, heightRange, availability, railDispatch, minOrder, notes, images } =
+  plant.data;
+
 const primaryImage = images[0];
 const isDetail = size === 'detail';
+
+// Pot sizes get their own full-width row — several values comma-joined wrap
+// badly in a narrow column and stop reading as spec data.
+const spec: Array<{ label: string; value: string; wide?: boolean }> = [
+  { label: 'Pot sizes', value: potSizes.join(' · '), wide: true },
+  { label: 'Height', value: heightRange },
+  { label: 'Available', value: availability },
+];
+if (isDetail && minOrder) {
+  spec.push({ label: 'Min order', value: `${minOrder} units` });
+}
 ---
 
 <article
-  class={`flex flex-col overflow-hidden rounded-lg border border-mist bg-bone ${
-    isDetail ? 'gap-6 sm:flex-row' : ''
-  }`}
+  class="group relative flex h-full flex-col overflow-hidden rounded-xl border border-mist bg-white transition duration-300 motion-safe:hover:-translate-y-1 hover:border-green/40 hover:shadow-[0_18px_40px_-24px_rgba(2,13,58,0.45)]"
 >
+  {/* The punched top edge of a real nursery tag. */}
+  <div class="flex h-7 shrink-0 items-center justify-center border-b border-mist bg-bone">
+    <div class="h-2 w-6 rounded-full bg-navy/15 ring-1 ring-inset ring-navy/10"></div>
+  </div>
+
   {
     primaryImage && (
-      <Image
-        src={primaryImage}
-        alt={name}
-        width={isDetail ? 480 : 400}
-        height={isDetail ? 480 : 300}
-        class={isDetail ? 'h-64 w-full object-cover sm:h-auto sm:w-1/2' : 'h-48 w-full object-cover'}
-      />
+      <div class="relative overflow-hidden bg-bone">
+        <Image
+          src={primaryImage}
+          alt={name}
+          width={isDetail ? 900 : 600}
+          height={isDetail ? 1125 : 750}
+          class={`w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03] ${
+            isDetail ? 'aspect-[4/5]' : 'aspect-[4/3]'
+          }`}
+        />
+        {railDispatch && (
+          <span class="absolute bottom-3 left-3 rounded-full bg-navy/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-bone backdrop-blur">
+            Rail dispatch
+          </span>
+        )}
+      </div>
     )
   }
-  <div class={`flex flex-col gap-3 p-5 ${isDetail ? 'sm:w-1/2' : ''}`}>
-    <div>
-      <h3
-        class={`font-display tracking-[-0.02em] text-navy ${isDetail ? 'text-3xl' : 'text-2xl'}`}
-      >
-        {name}
-      </h3>
-      <p class="font-sans italic text-ink">{botanical}</p>
-    </div>
 
-    <hr class="border-t border-mist" />
+  <div class={`flex flex-1 flex-col p-5 ${isDetail ? 'sm:p-7' : ''}`}>
+    <h3
+      class={`font-display tracking-display text-navy ${isDetail ? 'text-display-md' : 'text-2xl leading-tight'}`}
+    >
+      {name}
+    </h3>
+    <p class={`mt-1 font-display italic text-ink/70 ${isDetail ? 'text-xl' : 'text-base'}`}>
+      {botanical}
+    </p>
 
-    <dl class="grid grid-cols-3 gap-2 font-mono text-xs uppercase tracking-wider text-ink">
-      <div>
-        <dt class="text-ink/60">Pot size</dt>
-        <dd class="mt-1">{potSizes.join(', ')}</dd>
-      </div>
-      <div>
-        <dt class="text-ink/60">Height</dt>
-        <dd class="mt-1">{heightRange}</dd>
-      </div>
-      <div>
-        <dt class="text-ink/60">Availability</dt>
-        <dd class="mt-1">{availability}</dd>
-      </div>
+    {/* The rule that echoes the punched edge of a real tag. */}
+    <hr class="my-4 border-0 border-t border-mist" />
+
+    <dl class="grid grid-cols-2 gap-x-4 gap-y-3.5">
+      {
+        spec.map((row) => (
+          <div class={row.wide ? 'col-span-2' : ''}>
+            <dt class="font-mono text-[10px] uppercase tracking-wider text-ink/70">{row.label}</dt>
+            <dd class="mt-1 font-mono text-xs uppercase tracking-wide text-navy">{row.value}</dd>
+          </div>
+        ))
+      }
     </dl>
+
+    {
+      isDetail && notes && (
+        <p class="mt-5 max-w-prose font-sans text-sm leading-relaxed text-ink/80">{notes}</p>
+      )
+    }
+
+    {
+      isDetail && (
+        <a
+          href={whatsappLink(
+            `Hi, I'd like to ask about availability of ${name} (${botanical}).`
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-green px-5 py-3 font-sans text-sm font-medium text-white transition-colors hover:bg-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
+        >
+          Enquire about this plant
+        </a>
+      )
+    }
   </div>
 </article>

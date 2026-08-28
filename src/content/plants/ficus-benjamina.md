@@ -9,9 +9,9 @@ light: "full sun"
 availability: "year round"
 minOrder: 50
 railDispatch: true
-featured: false
+featured: true
 images:
-  - "../../assets/plants/placeholder.png"
+  - "../../assets/plants/ficus-benjamina.png"
 order: 3
 notes: "Common hedging and topiary stock; ask for pruned vs. natural form."
 ---

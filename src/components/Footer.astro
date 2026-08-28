@@ -1,30 +1,57 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/brand/logo-placeholder.svg';
-import { ADDRESS, EMAIL, PHONE_DISPLAY, telLink } from '../config';
+import { ADDRESS, BUSINESS_NAME, EMAIL, PHONE_DISPLAY, telLink, whatsappLink } from '../config';
+
+const year = new Date().getFullYear();
+
+const linkClass =
+  'rounded transition-colors hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-bone';
 ---
 
-<footer class="bg-navy text-bone">
-  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 md:flex-row md:items-start md:justify-between">
-    <div class="flex items-center gap-3">
-      <Image src={logo} alt="Fathima Nursery Gardens" width={36} height={36} />
+<footer class="bg-navy text-mist">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-3">
+          <Image src={logo} alt={BUSINESS_NAME} width={36} height={36} class="h-9 w-9" />
+          <div>
+            <p class="font-display text-lg tracking-display text-bone">{BUSINESS_NAME}</p>
+            <p class="font-sans text-sm text-mist/70">Bringing back the green&hellip;</p>
+          </div>
+        </div>
+        <p class="mt-5 max-w-sm font-sans text-sm leading-relaxed text-mist/80">
+          Wholesale nursery supplying landscape contractors, retail nurseries and institutions
+          across India. Consignments dispatched by rail.
+        </p>
+      </div>
+
       <div>
-        <p class="font-display text-lg tracking-[-0.02em]">Fathima Nursery Gardens</p>
-        <p class="font-sans text-sm text-mist">Bringing back the green&hellip;</p>
+        <h2 class="font-mono text-[11px] uppercase tracking-[0.18em] text-lime">Contact</h2>
+        <ul class="mt-4 space-y-2 font-sans text-sm text-mist/80">
+          <li><a href={telLink()} class={linkClass}>{PHONE_DISPLAY}</a></li>
+          <li><a href={`mailto:${EMAIL}`} class={linkClass}>{EMAIL}</a></li>
+          <li>
+            <a href={whatsappLink('Hi, I would like to enquire about wholesale supply.')} target="_blank" rel="noopener noreferrer" class={linkClass}>
+              WhatsApp enquiry
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="font-mono text-[11px] uppercase tracking-[0.18em] text-lime">Yard</h2>
+        <address class="mt-4 font-sans text-sm not-italic leading-relaxed text-mist/80">
+          {ADDRESS}
+        </address>
       </div>
     </div>
-    <div class="font-sans text-sm text-mist">
-      <p>{ADDRESS}</p>
-      <p class="mt-2">
-        <a href={telLink()} class="hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone">
-          {PHONE_DISPLAY}
-        </a>
-      </p>
-      <p>
-        <a href={`mailto:${EMAIL}`} class="hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone">
-          {EMAIL}
-        </a>
-      </p>
+
+    <div
+      class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 font-mono text-[11px] uppercase tracking-wider text-mist/70 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>&copy; {year} {BUSINESS_NAME}</p>
+      <p>TODO: GST number and registered entity name</p>
     </div>
   </div>
 </footer>

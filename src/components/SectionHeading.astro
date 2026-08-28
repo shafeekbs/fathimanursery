@@ -1,15 +1,26 @@
 ---
-// Stub — flesh out once the catalog/other content pages define what a
-// section heading needs (eyebrow label, alignment, etc.).
 interface Props {
+  /** Small mono label above the heading — trade-sheet voice. */
+  eyebrow?: string;
   title: string;
-  subtitle?: string;
+  intro?: string;
+  align?: 'left' | 'center';
+  tone?: 'dark' | 'light';
 }
 
-const { title, subtitle } = Astro.props;
+const { eyebrow, title, intro, align = 'left', tone = 'dark' } = Astro.props;
+
+const headingColor = tone === 'dark' ? 'text-navy' : 'text-bone';
+const eyebrowColor = tone === 'dark' ? 'text-green' : 'text-lime';
+const introColor = tone === 'dark' ? 'text-ink/75' : 'text-mist';
 ---
 
-<div>
-  <h2 class="font-display text-3xl tracking-[-0.02em] text-navy">{title}</h2>
-  {subtitle && <p class="mt-2 font-sans text-ink">{subtitle}</p>}
+<div class={align === 'center' ? 'mx-auto max-w-prose text-center' : 'max-w-prose'}>
+  {
+    eyebrow && (
+      <p class={`font-mono text-[11px] uppercase tracking-[0.18em] ${eyebrowColor}`}>{eyebrow}</p>
+    )
+  }
+  <h2 class={`mt-3 font-display text-display-md tracking-display ${headingColor}`}>{title}</h2>
+  {intro && <p class={`mt-4 font-sans text-base leading-relaxed sm:text-lg ${introColor}`}>{intro}</p>}
 </div>

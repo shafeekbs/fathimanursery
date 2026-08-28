@@ -1,15 +1,15 @@
 ---
-// Stub — built out when the plants catalog page is built (CLAUDE.md
-// section 5). Will take a list of plant entries and render PlantTag per plant.
 import type { CollectionEntry } from 'astro:content';
+import PlantTag from './PlantTag.astro';
 
 interface Props {
   plants: CollectionEntry<'plants'>[];
+  class?: string;
 }
 
-const { plants } = Astro.props;
+const { plants, class: className = '' } = Astro.props;
 ---
 
-<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-  {plants.map(() => null)}
+<div class={`grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ${className}`}>
+  {plants.map((plant) => <PlantTag plant={plant} />)}
 </div>
