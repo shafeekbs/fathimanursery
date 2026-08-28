@@ -3,3 +3,8 @@ dist/
 .astro/
 .env
 .DS_Store
+
+# Cloudflare / wrangler local state — never commit credentials
+.wrangler/
+.dev.vars
+.dev.vars.*

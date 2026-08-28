@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Must match the Worker name in the Cloudflare dashboard.
+  "name": "fathimanursery",
+  "compatibility_date": "2026-08-28",
+  // Assets-only Worker: the site is fully static, so there is no `main`
+  // entry point and no server-side code. `astro build` writes to dist/.
+  "assets": {
+    "directory": "./dist",
+    // Serve dist/404.html for unmatched paths.
+    "not_found_handling": "404-page"
+  }
+}

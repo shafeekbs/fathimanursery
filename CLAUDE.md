@@ -53,7 +53,11 @@ stop and say so instead of adding one.
 - **Tailwind CSS** via `@astrojs/tailwind`
 - **Astro content collections** for all plant and page data
 - **Sharp** via `astro:assets` for image optimisation
-- **Cloudflare Pages** for hosting, deployed from the `main` branch
+- **Cloudflare Workers** (static assets) for hosting, deployed from the `main`
+  branch via Workers Builds. Config is `wrangler.jsonc`; build command is
+  `npm run build`, deploy command is `npx wrangler deploy`. It is an
+  assets-only Worker serving `dist/` — there is no Worker entry point and no
+  server-side code, and none should be added (see §1 non-goals).
 
 Commands:
 
