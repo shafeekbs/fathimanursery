@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../assets/brand/logo-placeholder.svg';
+import leafMark from '../assets/brand/logo-leaf.png';
 import { ADDRESS, BUSINESS_NAME, EMAIL, PHONE_DISPLAY, telLink, whatsappLink } from '../config';
 
 const year = new Date().getFullYear();
@@ -14,7 +14,11 @@ const linkClass =
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <div class="lg:col-span-2">
         <div class="flex items-center gap-3">
-          <Image src={logo} alt={BUSINESS_NAME} width={36} height={36} class="h-9 w-9" />
+          {/* The "F" is knocked out of the leaf, so on navy it would fill with
+              navy. A bone chip keeps it reading white, as the mark intends. */}
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-bone">
+            <Image src={leafMark} alt={BUSINESS_NAME} width={26} height={30} class="h-[30px] w-auto" />
+          </span>
           <div>
             <p class="font-display text-lg tracking-display text-bone">{BUSINESS_NAME}</p>
             <p class="font-sans text-sm text-mist/70">Bringing back the green&hellip;</p>
