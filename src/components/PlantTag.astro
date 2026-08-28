@@ -1,0 +1,63 @@
+---
+// The signature element of the site — every plant is presented as a
+// nursery tag. See CLAUDE.md section 3. Keep the mono spec block strictly
+// for spec data; never set a sentence in mono.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  plant: CollectionEntry<'plants'>;
+  /** Render the larger plant-detail treatment instead of the catalog card. */
+  size?: 'card' | 'detail';
+}
+
+const { plant, size = 'card' } = Astro.props;
+const { name, botanical, potSizes, heightRange, availability, images } = plant.data;
+const primaryImage = images[0];
+const isDetail = size === 'detail';
+---
+
+<article
+  class={`flex flex-col overflow-hidden rounded-lg border border-mist bg-bone ${
+    isDetail ? 'gap-6 sm:flex-row' : ''
+  }`}
+>
+  {
+    primaryImage && (
+      <Image
+        src={primaryImage}
+        alt={name}
+        width={isDetail ? 480 : 400}
+        height={isDetail ? 480 : 300}
+        class={isDetail ? 'h-64 w-full object-cover sm:h-auto sm:w-1/2' : 'h-48 w-full object-cover'}
+      />
+    )
+  }
+  <div class={`flex flex-col gap-3 p-5 ${isDetail ? 'sm:w-1/2' : ''}`}>
+    <div>
+      <h3
+        class={`font-display tracking-[-0.02em] text-navy ${isDetail ? 'text-3xl' : 'text-2xl'}`}
+      >
+        {name}
+      </h3>
+      <p class="font-sans italic text-ink">{botanical}</p>
+    </div>
+
+    <hr class="border-t border-mist" />
+
+    <dl class="grid grid-cols-3 gap-2 font-mono text-xs uppercase tracking-wider text-ink">
+      <div>
+        <dt class="text-ink/60">Pot size</dt>
+        <dd class="mt-1">{potSizes.join(', ')}</dd>
+      </div>
+      <div>
+        <dt class="text-ink/60">Height</dt>
+        <dd class="mt-1">{heightRange}</dd>
+      </div>
+      <div>
+        <dt class="text-ink/60">Availability</dt>
+        <dd class="mt-1">{availability}</dd>
+      </div>
+    </dl>
+  </div>
+</article>

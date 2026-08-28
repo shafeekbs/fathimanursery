@@ -1,0 +1,30 @@
+---
+import { telLink, whatsappLink } from '../config';
+
+interface Props {
+  message?: string;
+  class?: string;
+}
+
+const {
+  message = "Hi, I'd like to ask about availability and trade pricing.",
+  class: className = '',
+} = Astro.props;
+---
+
+<div class={`flex flex-wrap items-center gap-3 ${className}`}>
+  <a
+    href={whatsappLink(message)}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex items-center gap-2 rounded-md bg-green px-5 py-3 font-sans text-sm font-medium text-white transition-colors hover:bg-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
+  >
+    Enquire on WhatsApp
+  </a>
+  <a
+    href={telLink()}
+    class="inline-flex items-center gap-2 rounded-md border border-navy px-5 py-3 font-sans text-sm font-medium text-navy transition-colors hover:bg-mist focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy"
+  >
+    Call us
+  </a>
+</div>
