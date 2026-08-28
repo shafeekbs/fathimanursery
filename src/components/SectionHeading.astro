@@ -1,0 +1,15 @@
+---
+// Stub — flesh out once the catalog/other content pages define what a
+// section heading needs (eyebrow label, alignment, etc.).
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<div>
+  <h2 class="font-display text-3xl tracking-[-0.02em] text-navy">{title}</h2>
+  {subtitle && <p class="mt-2 font-sans text-ink">{subtitle}</p>}
+</div>

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import EnquiryButton from '../components/EnquiryButton.astro';
+---
+
+<Base
+  title="Page not found — Fathima Nursery Gardens"
+  description="That page does not exist. Ask us about plant availability and wholesale supply from our nursery in Kerala."
+>
+  <section class="mx-auto flex max-w-2xl flex-col items-center gap-6 px-4 py-24 text-center sm:px-6">
+    <p class="font-mono text-xs uppercase tracking-wider text-ink/60">Error 404</p>
+    <h1 class="font-display text-4xl tracking-[-0.02em] text-navy">Page not found</h1>
+    <p class="font-sans text-ink">
+      That page does not exist. Ask us about availability and we will get back to you.
+    </p>
+    <EnquiryButton />
+  </section>
+</Base>

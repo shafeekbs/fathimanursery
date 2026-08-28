@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import EnquiryButton from '../components/EnquiryButton.astro';
+import logo from '../assets/brand/logo-placeholder.svg';
+---
+
+<Base
+  title="Fathima Nursery Gardens — wholesale plant nursery, Kerala"
+  description="Wholesale plant nursery in Kerala, India, supplying landscape contractors, retail nurseries and institutions across India by rail."
+>
+  <section class="mx-auto flex max-w-3xl flex-col items-center gap-8 px-4 py-24 text-center sm:px-6">
+    <Image src={logo} alt="Fathima Nursery Gardens" width={96} height={96} />
+    <h1 class="font-display text-4xl tracking-[-0.02em] text-navy sm:text-5xl">
+      Wholesale plants from Kerala, dispatched by rail across India
+    </h1>
+    <EnquiryButton message="Hi, I'd like to ask about availability and trade pricing." />
+  </section>
+</Base>
